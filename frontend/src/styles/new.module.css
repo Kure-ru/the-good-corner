@@ -1,0 +1,23 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  background: hsl(216, 20%, 95%);
+}
+.form-input {
+  border-color: #cad1d9;
+  width: 350px;
+}
+.confirm-button {
+  margin: 1rem 0;
+  background: #ff6e14;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.confirm-button:hover {
+  background: #ec5a13;
+  color: white !important;
+  font-size: 1.2rem;
+}

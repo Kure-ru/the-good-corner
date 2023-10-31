@@ -1,0 +1,28 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid lightgray;
+  padding: 10px;
+  background-color: white;
+}
+
+.main-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: rgb(219, 100, 46);
+}
+
+.button-primary {
+  background-color: #ff6e14 !important;
+  color: white !important;
+}
+
+.button-primary:hover {
+  background-color: #ec5a13 !important;
+  color: white !important;
+}
+
