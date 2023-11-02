@@ -1,29 +1,48 @@
-import axios from "axios";
-import { CategoryType } from "@/types/categories.type";
-import { useEffect, useState } from "react";
-import styles from "@/styles/new.module.css";
-import { AdCardType } from "@/types/ads.type";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import AdForm from "@/components/AdForm";
+import { FormEvent } from "react";
+
+const CREATE_AD = gql`
+  mutation Mutation($ad: CreateAdInputType!) {
+    createAd(ad: $ad) {
+      location
+      description
+      owner
+      picture
+      price
+      title
+    }
+  }
+`;
 
 const NewAd = () => {
-  const [newAd, setNewAd] = useState<AdCardType>();
-
   const router = useRouter();
+  const [createAd] = useMutation(CREATE_AD);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form as HTMLFormElement);
     const formJson = Object.fromEntries(formData.entries());
-    axios
-      .post("http://localhost:4000/ad", formJson)
-      .then((res) => setNewAd(res.data));
-    if (newAd) {
-      console.log("redirect");
-      router.push(`http://localhost:3000/ad/${newAd.id}`);
-    }
-  }
+
+    createAd({
+      variables: {
+        ad: {
+          title: formJson.title,
+          price: parseInt(formJson.price as string),
+          picture: formJson.picture,
+          description: formJson.description,
+          owner: formJson.owner,
+          location: formJson.location,
+          categoryId: parseInt(formJson.category as string),
+        },
+      },
+      onCompleted: () => {
+        router.push("/");
+      },
+    });
+  };
 
   return (
     <>

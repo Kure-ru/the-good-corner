@@ -1,26 +1,25 @@
-import express from "express";
 import "reflect-metadata";
-import cors from "cors";
 import { dataSource } from "./config/db";
-import adController from "./controllers/ad.controller";
-import categoryController from "./controllers/category.controller";
+import { ApolloServer } from "apollo-server";
+import { buildSchema } from "type-graphql";
+import { CategoryResolver } from "./resolvers/category.resolver";
+import { AdResolver } from "./resolvers/ad.resolver";
 
-const app = express();
-
-const port: number = 4000;
-
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
-
-app.use(express.json());
-
-app.use("/ad", adController);
-app.use("/category", categoryController);
-
-app.listen(port, async () => {
+const start = async () => {
   await dataSource.initialize();
-  console.log(`Server launch on http://localhost:${port}`);
-});
+
+  const schema = await buildSchema({
+    resolvers: [CategoryResolver, AdResolver],
+    validate: { forbidUnknownValues: false },
+  });
+
+  const server = new ApolloServer({
+    schema,
+  });
+
+  server.listen({ port: 4000 }, () =>
+    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+  );
+};
+
+void start();
