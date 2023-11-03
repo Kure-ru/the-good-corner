@@ -79,10 +79,10 @@ export async function update(
     adToupdate.picture = ad.picture;
     adToupdate.location = ad.location;
 
-    // const category = await Category.findOneBy({ id: categoryId });
-    // if (category) {
-    //   adToupdate.category = category;
-    // }
+    const category = await Category.findOneBy({ id: categoryId });
+    if (category) {
+      adToupdate.category = category;
+    }
     return adToupdate.save();
   }
 }

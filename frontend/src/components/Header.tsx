@@ -25,7 +25,7 @@ export default function Header() {
 
   const handleSearch = (e: FormEvent): void => {
     e.preventDefault();
-    router.push(`/?startsWith=${input}`);
+    router.push(`/ad/search?terms=${input}`);
   };
 
   return (
