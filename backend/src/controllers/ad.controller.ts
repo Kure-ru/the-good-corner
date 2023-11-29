@@ -11,7 +11,6 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
     : undefined;
   const startsWith: string = req.query.startsWith as string;
   const ads = await AdService.search(categoryId, tagId, startsWith);
-  console.log(ads);
   res.send(ads);
 });
 

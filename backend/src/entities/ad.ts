@@ -3,61 +3,65 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  BeforeInsert,
   ManyToOne,
   ManyToMany,
   JoinTable,
 } from "typeorm";
-import { Min, Length } from "className-validator";
+import { Min, Length } from "class-validator";
 import { Category } from "./category";
 import { Tag } from "./tag";
+import { Field, ObjectType } from "type-graphql";
 
+@ObjectType()
 @Entity()
 export class Ad extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Field()
   @Column("varchar", { length: 100 })
   @Length(3, 100, {
     message: "Entre 3 et 100 caractères.",
   })
-  title: string;
+  title?: string;
 
+  @Field()
   @Column("text")
-  description: string;
+  description?: string;
 
+  @Field()
   @Column("varchar", { length: 100 })
   @Length(3, 100, {
     message: "Entre 3 et 100 caractères.",
   })
-  owner: string;
+  owner?: string;
 
+  @Field()
   @Column("int")
   @Min(0)
-  price: number;
+  price?: number;
 
+  @Field()
   @Column("varchar")
-  picture: string;
+  picture?: string;
 
+  @Field()
   @Column("varchar")
-  location: string;
+  location?: string;
 
+  @Field()
   @Column()
-  createdAt: Date;
-
-  @BeforeInsert()
-  updateDates() {
-    this.createdAt = new Date();
-  }
+  createdAt?: Date;
 
   @ManyToOne(() => Category, (category) => category.ads)
-  category: Category;
+  category?: Category;
 
-  @ManyToMany(() => Tag, {
-    cascade: ["insert"],
-  })
-  @JoinTable()
-  tags: Tag[];
+  // @ManyToMany(() => Tag, {
+  //   cascade: ["insert"],
+  // })
+  // @JoinTable()
+  // tags: Tag[];
 
   constructor(
     datas: {

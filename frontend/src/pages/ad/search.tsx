@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { AdCard } from "./AdCard";
-import { AdCardType } from "@/types/ads.type";
-import { useSearchParams } from "next/navigation";
-import styles from "@/styles/RecentAds.module.css";
 import { gql, useQuery } from "@apollo/client";
+import { AdCard } from "@/components/AdCard";
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { AdCardType } from "@/types/ads.type";
+import styles from "@/styles/RecentAds.module.css";
 
 const GET_ALL_ADS = gql`
   query Ad($categoryId: Float, $search: String) {
@@ -20,29 +20,34 @@ const GET_ALL_ADS = gql`
   }
 `;
 
-export default function RecentAds() {
-  const [total, setTotal] = useState<number>(0);
+const Search = () => {
   const [ads, setAds] = useState<AdCardType[]>([]);
+
   const searchParams = useSearchParams();
   const categoryId = searchParams.get("categoryId");
   const terms = searchParams.get("terms");
 
-  const { loading, error } = useQuery(GET_ALL_ADS, {
+  console.log(terms);
+  const { loading, error, data } = useQuery(GET_ALL_ADS, {
     variables: {
-      categoryId: categoryId !== "" ? parseInt(categoryId as string) : null,
-      terms: terms !== "" ? terms : null,
+      search: terms,
     },
     onCompleted: (data) => {
       setAds(data.ads);
     },
   });
 
+  useEffect(() => {
+    if (data && data.ads) {
+      setAds(data.ads);
+    }
+  }, [data]);
+
   loading && <p>Chargement...Veuillez patienter</p>;
   error && <p>Erreur 🤯</p>;
   return (
     <>
-      <h2>Annonces récentes</h2>
-      <p>Total du panier : {total} €</p>
+      <h2>Recherche: {}</h2>
       <section className={styles["recent-ads"]}>
         {ads.map((ad) => (
           <div key={ad.title}>
@@ -56,12 +61,14 @@ export default function RecentAds() {
               description={ad.description}
               owner={ad.owner}
               createdAt={ad.createdAt}
-              setTotal={setTotal}
-              total={total}
+              total={0}
+              setTotal={null}
             />
           </div>
         ))}
       </section>
     </>
   );
-}
+};
+
+export default Search;

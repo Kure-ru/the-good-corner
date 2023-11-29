@@ -1,32 +1,33 @@
-import axios from "axios";
 import { CategoryType } from "@/types/categories.type";
 import React, { useEffect, useState } from "react";
 import styles from "@/styles/new.module.css";
 import { AdCardType } from "@/types/ads.type";
 import { useRouter } from "next/router";
+import { gql, useQuery } from "@apollo/client";
+
+const GET_ALL_CATEGORIES = gql`
+  query Categories {
+    categories {
+      id
+      title
+    }
+  }
+`;
 
 interface AdFormProps {
-  handleSubmit: (e: React.FormEvent) => void;
-  ad: AdCardType | null;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
+  ad?: AdCardType | null;
 }
 
 const AdForm: React.FC<AdFormProps> = ({ handleSubmit, ad }) => {
-  const [categories, setCategories] = useState<CategoryType[]>([]);
   const [currentAd, setCurrentAd] = useState<AdCardType | null>(null);
+  const { data } = useQuery(GET_ALL_CATEGORIES);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const result = await axios.get<CategoryType[]>(
-        "http://localhost:4000/category"
-      );
-      setCategories(result.data);
-    };
-    fetchCategories();
     if (ad) {
       setCurrentAd(ad);
-      console.log(currentAd);
     }
-  }, []);
+  }, [ad]);
 
   return (
     <section className={styles["form-container"]}>
@@ -117,7 +118,7 @@ const AdForm: React.FC<AdFormProps> = ({ handleSubmit, ad }) => {
             setCurrentAd({ ...currentAd, category: e.target.value })
           }
         >
-          {categories.map((category) => (
+          {data?.categories.map((category: CategoryType) => (
             <option value={category.id} key={category.id}>
               {category.title}
             </option>

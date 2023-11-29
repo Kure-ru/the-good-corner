@@ -1,21 +1,31 @@
 import styles from "@/styles/Header.module.css";
-import { Category } from "./Category";
+import { CategoryList } from "./CategoryList";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { gql, useQuery } from "@apollo/client";
+import { FormEvent } from "react";
+
+const GET_ALL_CATEGORIES = gql`
+  query Categories {
+    categories {
+      id
+      title
+    }
+  }
+`;
 
 export default function Header() {
   const router = useRouter();
   const [input, setInput] = useState<string>("");
+  const { loading, error, data } = useQuery(GET_ALL_CATEGORIES);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
-  const handleSearch = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void => {
+  const handleSearch = (e: FormEvent): void => {
     e.preventDefault();
-    router.push(`/?startsWith=${input}`);
+    router.push(`/ad/search?terms=${input}`);
   };
 
   return (
@@ -60,9 +70,11 @@ export default function Header() {
           <span className="desktop-long-label">Déposer une annonce</span>
         </a>
       </div>
-      <nav className="categories-navigation">
-        <Category />
-      </nav>
+      {data?.categories && (
+        <nav className="categories-navigation">
+          <CategoryList categories={data.categories} />
+        </nav>
+      )}
     </header>
   );
 }

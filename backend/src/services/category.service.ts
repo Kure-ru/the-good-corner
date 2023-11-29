@@ -1,7 +1,7 @@
 import { Like } from "typeorm";
 import { Category } from "../entities/category";
 
-export function getCategories(startsWith: string): Promise<Category[]> {
+export function getCategories(startsWith: string = ""): Promise<Category[]> {
   if (startsWith) {
     return Category.find({
       where: {

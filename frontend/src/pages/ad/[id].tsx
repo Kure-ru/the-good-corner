@@ -1,45 +1,65 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { AdCardType } from "@/types/ads.type";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import Link from "next/link";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 
-const AdDetailComponent = () => {
+const GET_ONE_AD = gql`
+  query Ad($getAdId: Float!) {
+    getAd(id: $getAdId) {
+      createdAt
+      description
+      id
+      location
+      owner
+      picture
+      price
+      title
+    }
+  }
+`;
+
+const DELETE_AD = gql`
+  mutation deleteAd($deleteAdId: Float!) {
+    deleteAd(id: $deleteAdId)
+  }
+`;
+
+const AdDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [ad, setAd] = useState<AdCardType | null>(null);
+  const [ad, setAd] = useState<AdCardType>();
+  const [getAd, { loading, error }] = useLazyQuery(GET_ONE_AD, {
+    variables: {
+      getAdId: Number(id),
+    },
+    onCompleted: (data: { getAd: AdCardType }) => {
+      setAd(data.getAd);
+    },
+  });
+  const [deleteAdRequest] = useMutation(DELETE_AD);
 
   useEffect(() => {
     if (id) {
-      const fetchData = async () => {
-        try {
-          const result = await axios.get<AdCardType>(
-            `http://localhost:4000/ad/${id}`
-          );
-          setAd(result.data);
-        } catch (err) {
-          console.log("error", err);
-        }
-      };
-      fetchData();
+      getAd();
     }
   }, [id]);
 
-  const handleDelete = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void => {
-    e.preventDefault();
-    axios
-      .delete(`http://localhost:4000/ad/${id}`)
-      .then((res) => console.log(res.data));
-    router.push(`http://localhost:3000/`);
-  };
+  if (loading || !ad) return <p>Chargement...Veuillez patienter</p>;
+  if (error) return <p>Erreur 🤯</p>;
 
-  if (!ad) {
-    return <div>Chargement...</div>;
-  }
+  const handleDelete = async () => {
+    if (ad) {
+      deleteAdRequest({
+        variables: {
+          deleteAdId: ad.id,
+        },
+      });
+      router.push("/");
+    }
+  };
 
   return (
     <main className="main-content">
@@ -123,4 +143,4 @@ const AdDetailComponent = () => {
   );
 };
 
-export default AdDetailComponent;
+export default AdDetail;
