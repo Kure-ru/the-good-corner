@@ -1,8 +1,12 @@
 import { DataSource } from "typeorm";
 
 export const dataSource = new DataSource({
-  type: "sqlite",
-  database: "./good_corner.sqlite", // Chemin defini par rapport au package
+  type: "postgres",
+  host: "db",
+  port: 5432,
+  username: "good_corner",
+  password: "password",
+  database: "goodcornerdb",
   entities: ["src/entities/*.ts"],
   synchronize: true,
   migrations: ["migrations/*.ts"],
