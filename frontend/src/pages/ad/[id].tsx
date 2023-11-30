@@ -119,7 +119,7 @@ const AdDetail = () => {
           </button>
 
           <Link
-            href={`http://localhost:3000/ad/update/${id}`}
+            href={`http://localhost:3030/ad/update/${id}`}
             className="button button-primary link-button"
           >
             <svg

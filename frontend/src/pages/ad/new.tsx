@@ -2,6 +2,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import AdForm from "@/components/AdForm";
 import { FormEvent } from "react";
+import { useState } from "react";
 
 const CREATE_AD = gql`
   mutation Mutation($ad: CreateAdInputType!) {
@@ -19,6 +20,7 @@ const CREATE_AD = gql`
 const NewAd = () => {
   const router = useRouter();
   const [createAd] = useMutation(CREATE_AD);
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
@@ -31,7 +33,7 @@ const NewAd = () => {
         ad: {
           title: formJson.title,
           price: parseInt(formJson.price as string),
-          picture: formJson.picture,
+          picture: imageUrl,
           description: formJson.description,
           owner: formJson.owner,
           location: formJson.location,
@@ -46,7 +48,11 @@ const NewAd = () => {
 
   return (
     <>
-      <AdForm handleSubmit={handleSubmit} />
+      <AdForm
+        handleSubmit={handleSubmit}
+        imageUrl={imageUrl}
+        setImageUrl={setImageUrl}
+      />
     </>
   );
 };

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { AdCardType } from "@/types/ads.type";
 import { useRouter } from "next/router";
@@ -54,7 +53,7 @@ const UpdateAd = () => {
       setAd(data.getAd);
     },
   });
-
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [updateAd] = useMutation(UPDATE_AD);
 
   useEffect(() => {
@@ -68,14 +67,14 @@ const UpdateAd = () => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson.category);
+
     updateAd({
       variables: {
         ad: {
           id: parseFloat(id),
           title: formJson.title,
           price: parseInt(formJson.price as string),
-          picture: formJson.picture,
+          picture: imageUrl,
           description: formJson.description,
           owner: formJson.owner,
           location: formJson.location,
@@ -92,9 +91,15 @@ const UpdateAd = () => {
   };
 
   loading && <div>Chargement...</div>;
+  error && <div>Une erreur est survenue</div>;
   return (
     <>
-      <AdForm ad={ad} handleSubmit={handleSubmit} />
+      <AdForm
+        ad={ad}
+        handleSubmit={handleSubmit}
+        imageUrl={imageUrl}
+        setImageUrl={setImageUrl}
+      />
     </>
   );
 };

@@ -8,14 +8,12 @@ services:
         volumes:
           - ./backend/src:/app/src:rw
           - ./backend/package.json:/app/package.json
-
     frontend:
       build: ./frontend
       ports:
         - 3030:3000
       volumes:
         - ./frontend/src:/app/src:rw
-
     db:
       image: postgres
       environment:
@@ -27,7 +25,13 @@ services:
         - ./dbData:/var/lib/postgresql/data/customDataFolder
       ports:
         - 5432:5432
-
+    images:
+      build: ./images
+      volumes:
+      - ./images/src:/app/src
+      - ./images/uploads:/app/uploads
+      ports:
+      - 8000:8000
     adminer:
       image: adminer
       ports:

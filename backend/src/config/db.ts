@@ -8,7 +8,7 @@ export const dataSource = new DataSource({
   password: "password",
   database: "goodcornerdb",
   entities: ["src/entities/*.ts"],
-  synchronize: true,
+  synchronize: false,
   migrations: ["migrations/*.ts"],
   migrationsTableName: "migrations",
 });
