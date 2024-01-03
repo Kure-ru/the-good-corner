@@ -1,13 +1,17 @@
 import { DeleteResult, Like } from "typeorm";
 import { Ad } from "../entities/ad";
 import { Category } from "../entities/category";
+import { Tag } from "../entities/tag";
 
-export function findAdById(id: number): Promise<Ad | null> {
+export function findAdById(
+  id: number,
+  tags: number[] = []
+): Promise<Ad | null> {
   return Ad.findOne({
-    relations: {
-      category: true,
+    relations: ["category", "tags"],
+    where: {
+      id: id,
     },
-    where: { id: id },
   });
 }
 
@@ -63,9 +67,10 @@ export async function create(adsData: {
 export async function update(
   id: number,
   ad: Ad,
-  categoryId: number
+  categoryId: number,
+  tags: number[]
 ): Promise<Ad | undefined> {
-  const adToupdate = await findAdById(id);
+  const adToupdate = await findAdById(id, tags);
 
   if (!adToupdate) {
     throw new Error("Ad not found 😭");

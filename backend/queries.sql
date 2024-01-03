@@ -1,15 +1,15 @@
--- CREATE TABLE 'ad' (
--- 'id' INTEGER PRIMARY KEY AUTOINCREMENT,
--- 'title' VARCHAR(100) NOT NULL,
--- 'description' TEXT,
--- 'owner' VARCHAR(100) NOT NULL,
--- 'price' INT,
--- 'picture' VARCHAR(100),
--- 'location' VARCHAR(100),
--- 'createdAt' DATE,
--- 'category_id' INTEGER,
--- FOREIGN KEY (category_id) REFERENCES 'category'
--- );
+CREATE TABLE 'ad' (
+'id' INTEGER PRIMARY KEY AUTOINCREMENT,
+'title' VARCHAR(100) NOT NULL,
+'description' TEXT,
+'owner' VARCHAR(100) NOT NULL,
+'price' INT,
+'picture' VARCHAR(100),
+'location' VARCHAR(100),
+'createdAt' DATE,
+'category_id' INTEGER,
+FOREIGN KEY (category_id) REFERENCES 'category'
+);
 -- INSERT INTO ad (title, description, owner, price, picture, location, createdAt, categoryId)
 -- VALUES
 -- ('Appartement moderne à Bordeaux', 'Bel appartement de 2 chambres avec vue sur la Garonne.', 'Marie Dupont', 250000, 'www.photo.fr', 'Bordeaux', '2023-09-20', 1),
@@ -44,7 +44,7 @@ pragma table_info('ad');
 -- SELECT * FROM ad AS a
 -- INNER JOIN category AS c
 -- ON a.category_id = c.id
--- WHERE c.name = 'vêtement' 
+-- WHERE c.name = 'vêtement'
 -- OR c.name = 'voiture';
 -- Afficher le prix moyen des annonces de la catégorie “autre”
 -- SELECT AVG(price) AS average price FROM ad AS a
@@ -97,14 +97,14 @@ pragma table_info('ad');
 --   //     title: "Porte-magazine",
 --   //   },
 --   // ];
--- INSERT INTO ad (picture, description, price, title, owner, location, createdAt)
--- VALUES
---     ('/images/table.webp', '/ads/table', 120, 'Table', 'Marie Dupont', 'Bordeaux', '2023-09-20'),
---     ('/images/dame-jeanne.webp', '/ads/dame-jeanne', 75, 'Dame-jeanne', 'Lucie Dupont', 'Lyon', '2023-09-01'),
---     ('/images/vide-poche.webp', '/ads/vide-poche', 4, 'Vide-poche', 'Alexandre Martin', 'Paris', '2023-09-01'),
---     ('/images/vaisselier.webp', '/ads/vaisselier', 900, 'Vaisselier', 'Sophie Lambert', 'Bordeaux', '2023-09-01'),
---     ('/images/bougie.webp', '/ads/bougie', 8, 'Bougie', 'Marie Robert', 'Lyon', '2023-09-01'),
---     ('/images/porte-magazine.webp', '/ads/porte-magazine', 45, 'Porte-magazine', 'Antoine Durand', 'Paris', '2023-09-01');
+INSERT INTO ad (picture, description, price, title, owner, location, createdAt)
+VALUES
+    ('/images/table.webp', '/ads/table', 120, 'Table', 'Marie Dupont', 'Bordeaux', '2023-09-20'),
+    ('/images/dame-jeanne.webp', '/ads/dame-jeanne', 75, 'Dame-jeanne', 'Lucie Dupont', 'Lyon', '2023-09-01'),
+    ('/images/vide-poche.webp', '/ads/vide-poche', 4, 'Vide-poche', 'Alexandre Martin', 'Paris', '2023-09-01'),
+    ('/images/vaisselier.webp', '/ads/vaisselier', 900, 'Vaisselier', 'Sophie Lambert', 'Bordeaux', '2023-09-01'),
+    ('/images/bougie.webp', '/ads/bougie', 8, 'Bougie', 'Marie Robert', 'Lyon', '2023-09-01'),
+    ('/images/porte-magazine.webp', '/ads/porte-magazine', 45, 'Porte-magazine', 'Antoine Durand', 'Paris', '2023-09-01');
 -- INSERT INTO category (title) VALUES ('Ameublement');
 -- INSERT INTO category (title) VALUES ('Électroménager');
 -- INSERT INTO category (title) VALUES ('Photographie');

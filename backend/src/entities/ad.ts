@@ -57,11 +57,9 @@ export class Ad extends BaseEntity {
   @ManyToOne(() => Category, (category) => category.ads)
   category?: Category;
 
-  // @ManyToMany(() => Tag, {
-  //   cascade: ["insert"],
-  // })
-  // @JoinTable()
-  // tags: Tag[];
+  @ManyToMany(() => Tag)
+  @JoinTable()
+  tags: Tag[];
 
   constructor(
     datas: {
