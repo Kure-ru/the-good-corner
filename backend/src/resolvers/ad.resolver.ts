@@ -16,7 +16,7 @@ import { Context } from "apollo-server-core";
 @Resolver(Ad)
 export class AdResolver {
   @Query(() => [Ad])
-  //  @Authorized()
+  @Authorized()
   ads(
     @Ctx() ctx: Context,
     @Arg("search", { nullable: true }) search: string,

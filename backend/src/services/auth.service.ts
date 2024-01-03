@@ -3,10 +3,12 @@ import * as UserService from "./user.service";
 import * as argon2 from "argon2";
 
 export function verifyToken(token: string) {
-  if (!process.env.JWT_SECRET_KEY) {
+  if (process.env.JWT_SECRET_KEY === undefined) {
     throw new Error();
   }
-  return jwt.verify(token, process.env.JWT_SECRET_KEY);
+  const verified = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  console.log(`Verified ${verified}`);
+  return verified;
 }
 
 export async function verifyPassword(password: string, hashedPassword: string) {
@@ -14,7 +16,7 @@ export async function verifyPassword(password: string, hashedPassword: string) {
 }
 
 function signJwt(payload: any) {
-  if (!process.env.JWT_SECRET_KEY) {
+  if (process.env.JWT_SECRET_KEY === undefined) {
     throw new Error();
   }
 
@@ -32,12 +34,11 @@ export async function signIn(email: string, password: string) {
         email: userFromDB.email,
         role: userFromDB.role,
       });
-
       return token;
     } else {
       throw new Error();
     }
-  } catch (err) {
-    throw new Error("Autorisation non valide.");
+  } catch (err: any) {
+    throw new Error(`Autorisation non valide.`);
   }
 }

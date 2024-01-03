@@ -1,9 +1,12 @@
 import RecentAds from "@/components/RecentAds";
+import isAuth from "@/components/secure/isAuth";
 
-export default function Home() {
+function Home() {
   return (
-    <body>
+    <>
       <RecentAds />
-    </body>
+    </>
   );
 }
+
+export default isAuth(Home);

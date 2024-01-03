@@ -20,6 +20,7 @@ const start = async () => {
     validate: { forbidUnknownValues: false },
     authChecker: async ({ context }, roles) => {
       try {
+        console.log(context.token);
         const payload: any = verifyToken(context.token);
         const userFromDB = await getByEmail(payload.email);
         context.user = userFromDB;
@@ -44,7 +45,7 @@ const start = async () => {
         return {};
       } else {
         try {
-          const bearer = req.headers.authorization;
+          const bearer = req.headers.authorization.split("Bearer ")[1];
           return { token: bearer };
         } catch (err) {
           console.log(err);

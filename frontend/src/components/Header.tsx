@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { gql, useQuery } from "@apollo/client";
 import { FormEvent } from "react";
+import Link from "next/link";
 
 const GET_ALL_CATEGORIES = gql`
   query Categories {
@@ -26,6 +27,11 @@ export default function Header() {
   const handleSearch = (e: FormEvent): void => {
     e.preventDefault();
     router.push(`/ad/search?terms=${input}`);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    router.push("/signin");
   };
 
   return (
@@ -65,10 +71,14 @@ export default function Header() {
             </button>
           </div>
         </form>
-        <a href="/ad/new" className="button link-button">
+        <Link href="/ad/new" className="button link-button">
           <span className="mobile-short-label">Publier</span>
           <span className="desktop-long-label">Déposer une annonce</span>
-        </a>
+        </Link>
+        <div onClick={logout} className="button link-button">
+          <span className="mobile-short-label">Se déconnecter</span>
+          <span className="desktop-long-label">Se déconnecter</span>
+        </div>
       </div>
       {data?.categories && (
         <nav className="categories-navigation">
