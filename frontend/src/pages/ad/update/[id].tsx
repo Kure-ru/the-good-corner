@@ -18,7 +18,6 @@ const GET_ONE_AD = gql`
       description
       id
       location
-      owner
       picture
       price
       title
@@ -32,7 +31,6 @@ const UPDATE_AD = gql`
       id
       createdAt
       description
-      owner
       location
       picture
       price
@@ -76,7 +74,6 @@ const UpdateAd = () => {
           price: parseInt(formJson.price as string),
           picture: imageUrl,
           description: formJson.description,
-          owner: formJson.owner,
           location: formJson.location,
         },
         categoryId: parseFloat(formJson.category as string),

@@ -86,19 +86,6 @@ const AdForm: React.FC<AdFormProps> = ({
         </label>
 
         <label>
-          Nom d&apos;utilisateur : <br />
-          <input
-            name="owner"
-            className={`text-field ${styles["form-input"]}`}
-            required
-            value={currentAd?.owner}
-            onChange={(e) =>
-              setCurrentAd({ ...currentAd, owner: e.target.value })
-            }
-          />
-        </label>
-
-        <label>
           Photo : <br />
           <input
             type="file"
@@ -175,7 +162,6 @@ const AdForm: React.FC<AdFormProps> = ({
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                console.log(e.target.value);
               }
             }}
           />

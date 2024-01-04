@@ -12,7 +12,6 @@ const GET_ALL_ADS = gql`
       description
       id
       location
-      owner
       picture
       price
       title
@@ -27,7 +26,6 @@ const Search = () => {
   const categoryId = searchParams.get("categoryId");
   const terms = searchParams.get("terms");
 
-  console.log(terms);
   const { loading, error, data } = useQuery(GET_ALL_ADS, {
     variables: {
       search: terms,
@@ -59,7 +57,6 @@ const Search = () => {
               category={ad.category}
               title={ad.title}
               description={ad.description}
-              owner={ad.owner}
               createdAt={ad.createdAt}
               total={0}
               setTotal={null}

@@ -8,9 +8,10 @@ export class UserResolver {
   @Mutation(() => User)
   async createUser(
     @Arg("email") email: string,
-    @Arg("password") password: string
+    @Arg("password") password: string,
+    @Arg("username") username: string
   ): Promise<User> {
-    const userFromDB = await UserService.create(email, password);
+    const userFromDB = await UserService.create(username, email, password);
     return userFromDB;
   }
 

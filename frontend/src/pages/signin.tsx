@@ -28,7 +28,6 @@ export default function SignInPage() {
       password,
     },
     onCompleted(data: any) {
-      console.log(data.signIn);
       localStorage.setItem("token", data.signIn);
       router.push("/");
     },

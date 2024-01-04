@@ -13,10 +13,14 @@ const GET_ONE_AD = gql`
       description
       id
       location
-      owner
       picture
       price
       title
+      user {
+        id
+        username
+        email
+      }
     }
   }
 `;
@@ -73,13 +77,13 @@ const AdDetail = () => {
           <div className="ad-details-description">{ad.description}</div>
           <hr className="separator" />
           <div className="ad-details-owner">
-            Annoncée publiée par <b>{ad.owner}</b>{" "}
+            Annoncée publiée par <b>{ad.user.username}</b>{" "}
             {ad.createdAt &&
               format(new Date(ad.createdAt), "PPPP", { locale: fr })}
             .
           </div>
           <a
-            href="mailto:serge@serge.com"
+            href={`mailto:${ad.user.email}`}
             className="button button-primary link-button"
           >
             <svg

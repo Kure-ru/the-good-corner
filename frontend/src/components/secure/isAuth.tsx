@@ -16,7 +16,6 @@ export default function isAuth(Component: ComponentType) {
       return null;
     }
 
-    console.log(token);
     return <Component {...props} />;
   };
 }

@@ -10,7 +10,6 @@ const CREATE_AD = gql`
     createAd(ad: $ad) {
       location
       description
-      owner
       picture
       price
       title
@@ -36,7 +35,6 @@ const NewAd = () => {
           price: parseInt(formJson.price as string),
           picture: imageUrl,
           description: formJson.description,
-          owner: formJson.owner,
           location: formJson.location,
           categoryId: parseInt(formJson.category as string),
         },

@@ -1,17 +1,18 @@
-import { set } from 'date-fns';
+import { User } from "./users.type";
+
 export interface AdCardProps extends AdCardType {
-    total: number;
-    setTotal: any;
-  }
-  
+  total: number;
+  setTotal: any;
+}
+
 export interface AdCardType {
-    title?: string;
-    picture?: string;
-    price?: number;
-    id?: number;
-    location?: string;
-    description?: string,
-    owner?: string,
-    category?: string,
-    createdAt?: Date
-  }
+  title?: string;
+  picture?: string;
+  price?: number;
+  id?: number;
+  location?: string;
+  description?: string;
+  category?: string;
+  createdAt?: Date;
+  user: User;
+}

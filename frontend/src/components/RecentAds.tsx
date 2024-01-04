@@ -12,7 +12,6 @@ const GET_ALL_ADS = gql`
       description
       id
       location
-      owner
       picture
       price
       title
@@ -54,7 +53,6 @@ export default function RecentAds() {
               category={ad.category}
               title={ad.title}
               description={ad.description}
-              owner={ad.owner}
               createdAt={ad.createdAt}
               setTotal={setTotal}
               total={total}

@@ -1,8 +1,13 @@
 import { User } from "../entities/user";
 import * as argon2 from "argon2";
 
-export async function create(email: string, password: string): Promise<User> {
+export async function create(
+  username: string,
+  email: string,
+  password: string
+): Promise<User> {
   const newUser = new User();
+  newUser.username = username;
   newUser.email = email;
   newUser.password = await argon2.hash(password);
   newUser.role = "USER";

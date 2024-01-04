@@ -9,9 +9,6 @@ export class CreateAdInputType {
   description: string;
 
   @Field()
-  owner: string;
-
-  @Field()
   price: number;
 
   @Field()

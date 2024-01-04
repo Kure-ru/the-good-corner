@@ -11,6 +11,7 @@ import { Min, Length } from "class-validator";
 import { Category } from "./category";
 import { Tag } from "./tag";
 import { Field, ObjectType } from "type-graphql";
+import { User } from "./user";
 
 @ObjectType()
 @Entity()
@@ -29,13 +30,6 @@ export class Ad extends BaseEntity {
   @Field()
   @Column("text")
   description?: string;
-
-  @Field()
-  @Column("varchar", { length: 100 })
-  @Length(3, 100, {
-    message: "Entre 3 et 100 caractères.",
-  })
-  owner?: string;
 
   @Field()
   @Column("int")
@@ -57,6 +51,11 @@ export class Ad extends BaseEntity {
   @ManyToOne(() => Category, (category) => category.ads)
   category?: Category;
 
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.ads)
+  @JoinTable()
+  user: User;
+
   @ManyToMany(() => Tag)
   @JoinTable()
   tags: Tag[];
@@ -65,7 +64,6 @@ export class Ad extends BaseEntity {
     datas: {
       title: string;
       description: string;
-      owner: string;
       price: number;
       picture: string;
       location: string;
@@ -75,7 +73,6 @@ export class Ad extends BaseEntity {
     if (datas) {
       this.title = datas.title;
       this.description = datas.description;
-      this.owner = datas.owner;
       this.price = datas.price;
       this.picture = datas.picture;
       this.location = datas.location;

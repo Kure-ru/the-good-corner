@@ -13,7 +13,7 @@ h1 {
   margin: 0;
 }
 
-h2{
+h2 {
   margin-bottom: 1.5rem;
 }
 
@@ -39,7 +39,7 @@ h2{
 .category-navigation-link:not(:last-child)::after,
 .category-navigation-link:hover:not(:last-child)::after {
   content: "•";
-  padding:  0 14px;
+  padding: 0 14px;
   margin-right: 25%;
   color: #152233;
 }
@@ -70,7 +70,6 @@ button:hover {
   border: none;
   font-size: 2rem;
 }
-
 
 .text-field-with-button {
   display: flex;
@@ -110,13 +109,13 @@ button:hover {
   padding-right: 0;
 }
 
-.text-field-input{
+.text-field-input {
   border: none;
   flex-grow: 2;
   background: none;
 }
 
-.text-field-input:focus{
+.text-field-input:focus {
   outline: none;
 }
 
@@ -160,14 +159,11 @@ button:hover {
   border: none;
 }
 
-
 .main-content {
   max-width: 832px;
   padding: 0 16px;
   margin: 120px auto 48px;
-  
 }
-
 
 .ad-card-container {
   display: flex;
@@ -175,11 +171,11 @@ button:hover {
   justify-content: space-around;
   max-width: 300px;
   height: 350px;
-  padding: .5rem;
+  padding: 0.5rem;
   border-radius: 8px;
   color: inherit;
   background-color: white;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .ad-card-container:hover {
@@ -215,6 +211,7 @@ button:hover {
 
 .ad-details-image {
   width: 100%;
+  padding-right: 1rem;
 }
 
 .ad-details {
@@ -222,12 +219,12 @@ button:hover {
   gap: 24px;
 }
 
-.ad-card-price{
-  font-size: .8rem;
+.ad-card-price {
+  font-size: 0.8rem;
   color: #666;
 }
 
-.form{
+.form {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -239,5 +236,5 @@ button:hover {
 }
 
 .form input {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }

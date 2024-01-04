@@ -1,14 +1,15 @@
 import { DeleteResult, Like } from "typeorm";
 import { Ad } from "../entities/ad";
 import { Category } from "../entities/category";
-import { Tag } from "../entities/tag";
+import { CreateAdInputType } from "../types/CreateAdInputType";
+import { User } from "../entities/user";
 
 export function findAdById(
   id: number,
   tags: number[] = []
 ): Promise<Ad | null> {
   return Ad.findOne({
-    relations: ["category", "tags"],
+    relations: ["category", "tags", "user"],
     where: {
       id: id,
     },
@@ -43,23 +44,19 @@ export function search(
   }
 }
 
-export async function create(adsData: {
-  title: string;
-  description: string;
-  owner: string;
-  price: number;
-  picture: string;
-  location: string;
-  categoryId: number;
-}): Promise<Ad> {
+export async function create(
+  adsData: CreateAdInputType,
+  user: User
+): Promise<Ad> {
   const ad = new Ad();
   Object.assign(ad, adsData);
   ad.createdAt = new Date();
-  const category = await Category.findOneBy({ id: adsData.categoryId });
 
   ad.category = {
     id: adsData.categoryId,
   } as Category;
+
+  ad.user = user;
 
   return ad.save();
 }
@@ -79,7 +76,6 @@ export async function update(
   if (adToupdate) {
     adToupdate.title = ad.title;
     adToupdate.description = ad.description;
-    adToupdate.owner = ad.owner;
     adToupdate.price = ad.price;
     adToupdate.picture = ad.picture;
     adToupdate.location = ad.location;

@@ -12,6 +12,7 @@ import * as AdService from "../services/ad.service";
 import { CreateAdInputType } from "../types/CreateAdInputType";
 import { UpdateAdInputType } from "../types/UpdateAdInput";
 import { Context } from "apollo-server-core";
+import { User } from "../entities/user";
 
 @Resolver(Ad)
 export class AdResolver {
@@ -22,7 +23,6 @@ export class AdResolver {
     @Arg("search", { nullable: true }) search: string,
     @Arg("categoryId", { nullable: true }) categoryId?: number
   ): Promise<Ad[]> {
-    console.log(ctx);
     return AdService.search(categoryId, search);
   }
 
@@ -42,8 +42,9 @@ export class AdResolver {
 
   @Mutation(() => Ad)
   @Authorized()
-  createAd(@Arg("ad") ad: CreateAdInputType): Promise<Ad> {
-    return AdService.create({ ...ad });
+  createAd(@Ctx() ctx: any, @Arg("ad") ad: CreateAdInputType): Promise<Ad> {
+    const user = ctx.user;
+    return AdService.create({ ...ad }, user);
   }
 
   @Mutation(() => Ad)
