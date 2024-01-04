@@ -1,10 +1,18 @@
-import { Arg, Mutation, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver, Authorized } from "type-graphql";
 import { User } from "../entities/user";
 import * as UserService from "../services/user.service";
 import * as AuthService from "../services/auth.service";
+import { CustomContext } from "../types/CustomContext";
 
 @Resolver(User)
 export class UserResolver {
+  @Query(() => User)
+  @Authorized()
+  getUser(@Ctx() ctx: CustomContext): Promise<User | null> {
+    const userId = ctx.user.id;
+    return UserService.getUser(userId);
+  }
+
   @Mutation(() => User)
   async createUser(
     @Arg("email") email: string,

@@ -118,6 +118,7 @@ const AdForm: React.FC<AdFormProps> = ({
             name="price"
             className={`text-field ${styles["form-input"]}`}
             required
+            type="number"
             value={currentAd?.price}
             onChange={(e) =>
               setCurrentAd({ ...currentAd, price: parseInt(e.target.value) })

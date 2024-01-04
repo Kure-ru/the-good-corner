@@ -9,24 +9,26 @@ export const AdCard = ({
   total = 0,
 }: AdCardProps) => {
   return (
-    <div className="ad-card-container">
-      <a className="ad-card-link" href={`/ad/${id}`}>
-        <img className="ad-card-image" src={picture} alt={title} />
-      </a>
-      <div className="ad-card-text">
-        <div>
-          <div className="ad-card-title">{title}</div>
-          <div className="ad-card-price">{price}€ </div>
+    <a className="ad-card-link" href={`/ad/${id}`}>
+      <div className="ad-card-container">
+        <div className="ad-card-image-container">
+          <img className="ad-card-image" src={picture} alt={title} />
         </div>
-        <button
-          className="button"
-          onClick={() => {
-            setTotal(total + price);
-          }}
-        >
-          +
-        </button>
+        <div className="ad-card-text">
+          <div>
+            <div className="ad-card-title">{title}</div>
+            <div className="ad-card-price">{price}€ </div>
+          </div>
+          <button
+            className="button"
+            onClick={() => {
+              setTotal(total + price);
+            }}
+          >
+            +
+          </button>
+        </div>
       </div>
-    </div>
+    </a>
   );
 };

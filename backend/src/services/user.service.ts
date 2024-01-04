@@ -17,3 +17,7 @@ export async function create(
 export function getByEmail(email: string): Promise<User> {
   return User.findOneByOrFail({ email });
 }
+
+export function getUser(userId: number): any {
+  return User.findOneByOrFail({ id: userId });
+}
