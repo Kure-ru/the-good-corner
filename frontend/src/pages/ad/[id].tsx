@@ -34,7 +34,10 @@ const DELETE_AD = gql`
 const AdDetail = () => {
   const router = useRouter();
   const { id } = router.query;
+
   const [ad, setAd] = useState<AdCardType>();
+  const [isUser, setIsUser] = useState<boolean>(false);
+
   const [getAd, { loading, error }] = useLazyQuery(GET_ONE_AD, {
     variables: {
       getAdId: Number(id),
@@ -43,6 +46,7 @@ const AdDetail = () => {
       setAd(data.getAd);
     },
   });
+
   const [deleteAdRequest] = useMutation(DELETE_AD);
 
   useEffect(() => {
@@ -77,13 +81,13 @@ const AdDetail = () => {
           <div className="ad-details-description">{ad.description}</div>
           <hr className="separator" />
           <div className="ad-details-owner">
-            Annoncée publiée par <b>{ad.user.username}</b>{" "}
+            Annoncée publiée par <b>{ad.user?.username}</b>{" "}
             {ad.createdAt &&
               format(new Date(ad.createdAt), "PPPP", { locale: fr })}
             .
           </div>
           <a
-            href={`mailto:${ad.user.email}`}
+            href={`mailto:${ad.user?.email}`}
             className="button button-primary link-button"
           >
             <svg
@@ -101,7 +105,6 @@ const AdDetail = () => {
             </svg>
             Envoyer un email
           </a>
-
           <button
             onClick={handleDelete}
             className="button button-primary link-button"
@@ -121,7 +124,6 @@ const AdDetail = () => {
             </svg>
             Supprimer l&apos;annonce
           </button>
-
           <Link
             href={`http://localhost:3030/ad/update/${id}`}
             className="button button-primary link-button"

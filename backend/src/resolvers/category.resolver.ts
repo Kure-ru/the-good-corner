@@ -1,4 +1,4 @@
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, Query, Resolver, Mutation, Authorized } from "type-graphql";
 import { Category } from "../entities/category";
 import * as CategoryService from "../services/category.service";
 
@@ -14,5 +14,11 @@ export class CategoryResolver {
   @Query(() => Category)
   getCategory(@Arg("id") id: number): Promise<Category | null> {
     return CategoryService.findCategoryById(id);
+  }
+
+  @Authorized("ADMIN")
+  @Mutation(() => Category)
+  createCategory(@Arg("category") category: string): Promise<Category> {
+    return CategoryService.create(category);
   }
 }

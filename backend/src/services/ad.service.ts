@@ -64,10 +64,9 @@ export async function create(
 export async function update(
   id: number,
   ad: Ad,
-  categoryId: number,
-  tags: number[]
+  categoryId: number
 ): Promise<Ad | undefined> {
-  const adToupdate = await findAdById(id, tags);
+  const adToupdate = await findAdById(id);
 
   if (!adToupdate) {
     throw new Error("Ad not found 😭");
@@ -84,6 +83,8 @@ export async function update(
     if (category) {
       adToupdate.category = category;
     }
+
+    console.log(adToupdate);
     return adToupdate.save();
   }
 }

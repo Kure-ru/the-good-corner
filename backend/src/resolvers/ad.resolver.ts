@@ -12,7 +12,6 @@ import * as AdService from "../services/ad.service";
 import { CreateAdInputType } from "../types/CreateAdInputType";
 import { UpdateAdInputType } from "../types/UpdateAdInput";
 import { Context } from "apollo-server-core";
-import { User } from "../entities/user";
 
 @Resolver(Ad)
 export class AdResolver {
@@ -48,11 +47,23 @@ export class AdResolver {
   }
 
   @Mutation(() => Ad)
+  @Authorized()
   updateAd(
+    @Ctx() ctx: any,
     @Arg("ad") ad: UpdateAdInputType,
-    @Arg("categoryId") categoryId: number,
-    @Arg("tags", () => [Int]) tags: number[]
+    @Arg("categoryId") categoryId: number
   ): Promise<Ad | undefined> {
-    return AdService.update(ad.id, { ...ad } as Ad, categoryId, tags);
+    const user = ctx.user;
+    if (!ad) {
+      console.log("ad undefined");
+      throw new Error("Ad undefined");
+    }
+
+    if (!user) {
+      console.log("ctx.user undefined");
+      throw new Error("User context undefined");
+    }
+    console.log(user);
+    return AdService.update(ad.id, { ...ad } as Ad, categoryId);
   }
 }

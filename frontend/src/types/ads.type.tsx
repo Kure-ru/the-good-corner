@@ -14,5 +14,5 @@ export interface AdCardType {
   description?: string;
   category?: string;
   createdAt?: Date;
-  user: User;
+  user?: User;
 }

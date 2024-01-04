@@ -6,11 +6,6 @@ import { useMutation } from "@apollo/client";
 import { FormEvent } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 
-interface UpdateAdProps {
-  ad: AdCardType;
-  handleSubmit: (e: React.FormEvent) => void;
-}
-
 const GET_ONE_AD = gql`
   query Ad($getAdId: Float!) {
     getAd(id: $getAdId) {

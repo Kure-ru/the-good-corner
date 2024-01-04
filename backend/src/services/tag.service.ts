@@ -1,4 +1,3 @@
-import { Ad } from "../entities/ad";
 import { Tag } from "../entities/tag";
 
 export function findTagById(id: number): Promise<Tag | null> {

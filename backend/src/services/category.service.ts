@@ -21,3 +21,9 @@ export function findCategoryById(id: number): Promise<Category | null> {
     where: { id: id },
   });
 }
+
+export async function create(categoryTitle: string): Promise<Category> {
+  const category = new Category();
+  category.title = categoryTitle;
+  return category.save();
+}
