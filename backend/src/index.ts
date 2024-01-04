@@ -20,7 +20,6 @@ const start = async () => {
     validate: { forbidUnknownValues: false },
     authChecker: async ({ context }, roles) => {
       try {
-        console.log(context.token);
         const payload: any = verifyToken(context.token);
         const userFromDB = await getByEmail(payload.email);
         context.user = userFromDB;

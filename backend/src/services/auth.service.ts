@@ -7,7 +7,6 @@ export function verifyToken(token: string) {
     throw new Error();
   }
   const verified = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  console.log(`Verified ${verified}`);
   return verified;
 }
 

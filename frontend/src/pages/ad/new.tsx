@@ -1,8 +1,9 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import AdForm from "@/components/AdForm";
 import { FormEvent } from "react";
 import { useState } from "react";
+import isAuth from "@/components/secure/isAuth";
 
 const CREATE_AD = gql`
   mutation Mutation($ad: CreateAdInputType!) {
@@ -57,4 +58,4 @@ const NewAd = () => {
   );
 };
 
-export default NewAd;
+export default isAuth(NewAd);
