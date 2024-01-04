@@ -12,6 +12,7 @@ import * as AdService from "../services/ad.service";
 import { CreateAdInputType } from "../types/CreateAdInputType";
 import { UpdateAdInputType } from "../types/UpdateAdInput";
 import { Context } from "apollo-server-core";
+import { CustomContext } from "../types/CustomContext";
 
 @Resolver(Ad)
 export class AdResolver {
@@ -34,8 +35,14 @@ export class AdResolver {
   }
 
   @Mutation(() => String)
-  async deleteAd(@Arg("id") id: number) {
-    await AdService.deleteAd(id);
+  @Authorized()
+  async deleteAd(@Ctx() ctx: CustomContext, @Arg("id") id: number) {
+    const userId = ctx.user.id;
+    const userRole = ctx.user.role;
+
+    if ((await AdService.isAuthorized(id, userId)) || userRole === "ADMIN") {
+      await AdService.deleteAd(id);
+    }
     return "Annonce supprimée.";
   }
 
@@ -48,22 +55,18 @@ export class AdResolver {
 
   @Mutation(() => Ad)
   @Authorized()
-  updateAd(
-    @Ctx() ctx: any,
+  async updateAd(
+    @Ctx() ctx: CustomContext,
     @Arg("ad") ad: UpdateAdInputType,
     @Arg("categoryId") categoryId: number
   ): Promise<Ad | undefined> {
-    const user = ctx.user;
-    if (!ad) {
-      console.log("ad undefined");
-      throw new Error("Ad undefined");
-    }
+    const userId = ctx.user.id;
+    const userRole = ctx.user.role;
 
-    if (!user) {
-      console.log("ctx.user undefined");
-      throw new Error("User context undefined");
+    if ((await AdService.isAuthorized(ad.id, userId)) || userRole === "ADMIN") {
+      return AdService.update(ad.id, { ...ad } as Ad, categoryId);
+    } else {
+      throw new Error("Accès refusé.");
     }
-    console.log(user);
-    return AdService.update(ad.id, { ...ad } as Ad, categoryId);
   }
 }

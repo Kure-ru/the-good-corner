@@ -4,6 +4,12 @@ import { Category } from "../entities/category";
 import { CreateAdInputType } from "../types/CreateAdInputType";
 import { User } from "../entities/user";
 
+export async function isAuthorized(adId: any, userId: any) {
+  const ad = await findAdById(adId);
+  const adUserId = ad?.user.id;
+  return adUserId === userId;
+}
+
 export function findAdById(
   id: number,
   tags: number[] = []
