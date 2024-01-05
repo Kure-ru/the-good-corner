@@ -90,7 +90,6 @@ export async function update(
       adToupdate.category = category;
     }
 
-    console.log(adToupdate);
     return adToupdate.save();
   }
 }

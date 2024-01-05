@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -30,41 +31,48 @@ export default function SignUpPage() {
   });
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        signUp();
-      }}
-    >
-      <h2>Créer un compte</h2>
+    <>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          signUp();
+        }}
+      >
+        <h2>Créer un compte</h2>
+        <div>
+          <label htmlFor="">Nom d&apos;utilisateur</label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="">Adresse email</label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="">Mot de passe</label>
+          <input
+            type="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+        </div>
+        <button type="submit">Se connecter</button>
+      </form>
       <div>
-        <label htmlFor="">Nom d&apos;utilisateur</label>
-        <input
-          type="text"
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-        />
+        <span>
+          Vous avez déjà un compte ?<Link href="/signin">Me connecter</Link>
+        </span>
       </div>
-      <div>
-        <label htmlFor="">Adresse email</label>
-        <input
-          type="text"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <label htmlFor="">Mot de passe</label>
-        <input
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-      </div>
-      <button type="submit">Se connecter</button>
-    </form>
+    </>
   );
 }

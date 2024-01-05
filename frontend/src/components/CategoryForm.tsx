@@ -37,7 +37,6 @@ export const CategoryForm = () => {
     onCompleted: (data) => {
       if (data.getUser.role === "ADMIN") {
         setIsAdmin(true);
-        console.log("is admin");
       }
     },
   });

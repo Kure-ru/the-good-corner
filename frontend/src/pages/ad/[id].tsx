@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AdCardType } from "@/types/ads.type";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import Link from "next/link";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { AuthContext } from "@/context/authContext";
 
 const GET_ONE_AD = gql`
   query Ad($getAdId: Float!) {
@@ -31,15 +32,6 @@ const DELETE_AD = gql`
   }
 `;
 
-const GET_USER = gql`
-  query Query {
-    getUser {
-      id
-      role
-    }
-  }
-`;
-
 const AdDetail = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -47,32 +39,33 @@ const AdDetail = () => {
   const [ad, setAd] = useState<AdCardType>();
   const [isUser, setIsUser] = useState<boolean>(false);
 
+  const { currentUser } = useContext(AuthContext);
+
   const [getAd, { loading, error }] = useLazyQuery(GET_ONE_AD, {
     variables: {
       getAdId: Number(id),
     },
     onCompleted: (data: { getAd: AdCardType }) => {
       setAd(data.getAd);
-      getUser();
     },
   });
 
   const [deleteAdRequest] = useMutation(DELETE_AD);
-
-  const [getUser] = useLazyQuery(GET_USER, {
-    onCompleted: (data) => {
-      if (data.getUser.id === ad?.user?.id || data.getUser.role === "ADMIN") {
-        setIsUser(true);
-        console.log("user is matching");
-      }
-    },
-  });
 
   useEffect(() => {
     if (id) {
       getAd();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (
+      currentUser &&
+      (currentUser?.id === ad?.user?.id || currentUser?.role === "ADMIN")
+    ) {
+      setIsUser(true);
+    }
+  }, [currentUser, ad]);
 
   if (loading || !ad) return <p>Chargement...Veuillez patienter</p>;
   if (error) return <p>Erreur 🤯</p>;
